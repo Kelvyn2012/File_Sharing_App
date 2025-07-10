@@ -3,9 +3,15 @@ from .forms import FileUploadForm
 from .models import FileUpload
 from django.contrib.auth.decorators import login_required
 
+from django.contrib.auth.decorators import login_required
+
 
 @login_required
-def upload_file(request): ...
+def my_files(request):
+    files = FileUpload.objects.filter(owner=request.user).order_by("-uploaded_at")
+    return render(request, "core/my_files.html", {"files": files})
+
+
 def home(request):
     return redirect("upload_file")
 

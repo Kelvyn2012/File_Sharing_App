@@ -1,0 +1,27 @@
+{% extends 'core/base.html' %}
+
+{% block title %}My Files{% endblock %}
+
+{% block content %}
+  <div class="max-w-4xl mx-auto p-6 bg-white shadow rounded-lg mt-6">
+    <h2 class="text-2xl font-bold mb-4 text-gray-800">📁 My Uploaded Files</h2>
+
+    {% if files %}
+      <ul class="space-y-4">
+        {% for file in files %}
+          <li class="p-4 bg-gray-50 rounded shadow-sm flex justify-between items-center">
+            <div>
+              <p class="font-medium text-gray-700">{{ file.file.name }}</p>
+              <p class="text-sm text-gray-500">{{ file.uploaded_at|date:"Y-m-d H:i" }}</p>
+            </div>
+            <a href="{% url 'file_detail' uuid=file.share_uuid %}" class="text-blue-600 hover:underline text-sm">View</a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="text-gray-600">You haven’t uploaded any files yet.</p>
+    {% endif %}
+  </div>
+{% endblock %}
+
+</html>
