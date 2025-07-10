@@ -1,12 +1,49 @@
-<!-- core/templates/core/file_detail.html -->
-<h2>File Details</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Download File</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+  <div class="bg-white p-6 rounded-lg shadow w-full max-w-md text-center">
+    <h2 class="text-2xl font-bold text-gray-800 mb-2">Your File is Ready</h2>
 
-<p><strong>File name:</strong> {{ file.file.name }}</p>
-<p><strong>Uploaded at:</strong> {{ file.uploaded_at }}</p>
-<p><strong>Public:</strong> {{ file.is_public }}</p>
-<p><strong>Expires after:</strong> {{ file.expire_after }}</p>
+    <p class="text-gray-600 text-sm mb-2">
+      File: <span class="font-medium">{{ file.file.name }}</span>
+    </p>
 
-{% if file.is_public %}
-    <p>You can download it here:</p>
-    <a href="{{ file.file.url }}" download>Download File</a>
-{% endif %}
+    {% if ".jpg" in file.file.url|lower or ".jpeg" in file.file.url|lower or ".png" in file.file.url|lower %}
+      <img src="{{ file.file.url }}" alt="preview"
+           class="w-full max-h-60 object-contain mx-auto mb-4 rounded border" />
+    {% endif %}
+
+    <a href="{{ file.file.url }}" download
+       class="inline-block bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 mb-3">
+      Download File
+    </a>
+
+    <div class="mt-2">
+      <input type="text" id="shareLink"
+             value="{{ request.build_absolute_uri }}"
+             readonly
+             class="w-full text-center text-sm p-2 border rounded bg-gray-50 mb-2" />
+      <button onclick="copyToClipboard()"
+              class="text-blue-600 hover:underline text-sm">📋 Copy Link</button>
+    </div>
+
+    <div id="copiedToast" class="hidden mt-2 text-green-600 text-sm">✔️ Link copied!</div>
+  </div>
+
+  <script>
+    function copyToClipboard() {
+      const input = document.getElementById("shareLink");
+      navigator.clipboard.writeText(input.value).then(() => {
+        const toast = document.getElementById("copiedToast");
+        toast.classList.remove("hidden");
+        setTimeout(() => toast.classList.add("hidden"), 2000);
+      });
+    }
+  </script>
+</body>
+</html>
