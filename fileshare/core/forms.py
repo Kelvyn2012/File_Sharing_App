@@ -1,13 +1,11 @@
 from django import forms
-from .models import fileUpload
+from .models import FileUpload  # Make sure your model class is named FileUpload
 
 
-class fileUploadForm(forms.ModelForm):
-
+class FileUploadForm(forms.ModelForm):
     class Meta:
-        model = fileUpload
-        fields = (
-            "file",
-            "is_puplic",
-            "expire_after",
-        )
+        model = FileUpload
+        fields = ("file", "is_public", "expire_after")
+        widgets = {
+            "expire_after": forms.DateInput(attrs={"type": "date"}) 
+        }

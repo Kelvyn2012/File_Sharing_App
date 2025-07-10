@@ -1,0 +1,12 @@
+<!-- core/templates/core/file_detail.html -->
+<h2>File Details</h2>
+
+<p><strong>File name:</strong> {{ file.file.name }}</p>
+<p><strong>Uploaded at:</strong> {{ file.uploaded_at }}</p>
+<p><strong>Public:</strong> {{ file.is_public }}</p>
+<p><strong>Expires after:</strong> {{ file.expire_after }}</p>
+
+{% if file.is_public %}
+    <p>You can download it here:</p>
+    <a href="{{ file.file.url }}" download>Download File</a>
+{% endif %}

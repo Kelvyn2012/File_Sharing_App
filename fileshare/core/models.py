@@ -8,7 +8,7 @@ def user_directory_path(instance, file_name):
     return f"user_{instance.owner.id}/{file_name}"
 
 
-class fileUpload(models.Model):
+class FileUpload(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     file = models.FileField(upload_to=user_directory_path)
     uploaded_at = models.DateTimeField(auto_now_add=True)
